@@ -665,6 +665,12 @@ class CardGenerator(object):
                        data="\x00\x00\x00\x01\x00\x01\x00\x00"))  # EF.ICCSN
         self.sam = CryptoflexSAM(self.mf)
 
+    def __generate_belpic(self):
+        from virtualsmartcard.cards.belpic import BelpicMF
+        self.__generate_iso_card()
+        self.mf = BelpicMF('belpic.xml')
+        self.sam.set_MF(self.mf)
+
     def generateCard(self):
         """Generate a new card"""
         if self.type == 'iso7816':
@@ -675,6 +681,8 @@ class CardGenerator(object):
             self.__generate_cryptoflex()
         elif self.type == 'nPA':
             self.__generate_nPA()
+        elif self.type == 'belpic':
+            self.__generate_belpic()
         else:
             return (None, None)
 
